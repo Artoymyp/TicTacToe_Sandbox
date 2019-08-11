@@ -39,19 +39,20 @@ class TicTacToe(object):
         self.NextMark = 'X' if self.NextMark == 'O' else 'O'
 
 
-import os
+if __name__ == "__main__":
+    import os
 
-game = TicTacToe()
-while not game.IsEnded():
-    os.system('cls||clear')
+    game = TicTacToe()
+    while not game.IsEnded():
+        os.system('cls||clear')
 
-    game.Draw()
-    cellNumber = int(input('Please use a numpad 1-9 Keys to make the next move:'))
-    cellNumber-=1
-    x, y = cellNumber//3, cellNumber%3
-    game.MarkCell(x,y)
-else:
-    os.system('cls||clear')
+        game.Draw()
+        cellNumber = int(input('Please use a numpad 1-9 Keys to make the next move:'))
+        cellNumber-=1
+        x, y = cellNumber//3, cellNumber%3
+        game.MarkCell(x,y)
+    else:
+        os.system('cls||clear')
 
-    game.Draw()
-    print('winner is '+game.Winner)
+        game.Draw()
+        print('winner is '+game.Winner)
