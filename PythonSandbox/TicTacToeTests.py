@@ -19,20 +19,20 @@ class Test_TicTacToeTests(unittest.TestCase):
 
         for turn_sequence, win_description in game_descriptions:
             game = TicTacToe()
-            expected_winner = game.NextMark
+            expected_winner = game.next_mark
 
             # assert
             for turn_index, turn in enumerate(turn_sequence):
                 self.assertEqual(
                     '', 
-                    game.Winner, 
+                    game.winner, 
                     f'Winner before the turn #{turn_index} of the game "{win_description}"')
 
-                game.MarkCell(*turn)
+                game.mark_cell(*turn)
 
             self.assertEqual(
                 expected_winner, 
-                game.Winner, 
+                game.winner, 
                 'Winner after the last turn of the game "{win_description}"')
 
     def test_game_with_no_winner(self):
@@ -43,10 +43,10 @@ class Test_TicTacToeTests(unittest.TestCase):
 
         # assert
         for turn_index, turn in enumerate(draw_turn_sequence):
-            self.assertEqual('', game.Winner, f'Winner before the turn #{turn_index}')
-            game.MarkCell(*turn)
+            self.assertEqual('', game.winner, f'Winner before the turn #{turn_index}')
+            game.mark_cell(*turn)
 
-        self.assertEqual('', game.Winner, 'Winner after the last turn')
+        self.assertEqual('', game.winner, 'Winner after the last turn')
 
 
 if __name__ == '__main__':
