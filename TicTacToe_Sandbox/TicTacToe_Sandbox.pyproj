@@ -43,11 +43,51 @@
     </Interpreter>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
-  <!-- Uncomment the CoreCompile target to enable the Build command in
-       Visual Studio and specify your pre- and post-build commands in
-       the BeforeBuild and AfterBuild targets below. -->
-  <!--<Target Name="CoreCompile" />-->
+  
+  <Target Name="CoreCompile" />
+
+  <!-- Problem: PyLint is running only for Rebuild command, and never runs for Build command.
+       Solution: https://github.com/Microsoft/PTVS/issues/816: "The Outputs parameter of Target 
+         node won't work, but if you add an item group called OutputFiles then we will compare 
+         date/time stamps against those when deciding to build."
+       Note: Second in a row Build command will not yield any warnings, because the second Build
+         will not be started for the unchanged project. Consequently, no build targets will be 
+         executed. -->
+  <ItemGroup>
+    <!--Visible="false" prevents the file from showing in the Solution Window.-->
+    <OutputFiles Include="PyLint_output.txt" 
+                 Visible="false"/>
+  </ItemGroup>
+	
   <Target Name="BeforeBuild">
+    <!-- ExecuteIn="none" value prevents an appearance of the Console window. -->
+    <!-- the "msg-template" argument is a format, that makes PyLint generate messages, 
+         that can be automatically parsed by the Exec task to extract errors and warnings. -->
+    <RunPythonCommand 
+                      Target="pylint.lint"
+                      TargetType="module"
+                      Arguments="&quot;--msg-template={path}({line},{column}): warning: [{msg_id}{obj}] {msg}&quot; -r n @(Compile, ' ')"
+                      ExecuteIn="none"
+                      WorkingDirectory="$(MSBuildProjectDirectory)"
+                      RequiredPackages="pylint&gt;=1.0.0"
+                      ConsoleToMSBuild="true"
+                      ContinueOnError="true">
+      <Output TaskParameter="ConsoleOutput" ItemName="OutputText" />
+      <Output TaskParameter="ConsoleError" PropertyName="ErrorText" />
+    </RunPythonCommand>
+
+    <!-- Creates the log-file, whose time-stamp later will be used to check the availablity of the Build command. 
+         Content of this file will be used to populate the ErrorList window. -->
+	<WriteLinesToFile File="PyLint_output.txt"
+                      Lines="@(OutputText)"
+                      Overwrite="true"
+                      Encoding="Unicode"/>
+
+    <!-- The Exec task automatically searches in the Command's output errors and warnings of the standard form. 
+         After this task the ErrorList window will be populated with information from the "PyLint_output.txt" file.-->
+    <Exec ContinueOnError="true"
+          IgnoreExitCode="true"
+          Command='type PyLint_output.txt'/>
   </Target>
   <Target Name="AfterBuild">
   </Target>
