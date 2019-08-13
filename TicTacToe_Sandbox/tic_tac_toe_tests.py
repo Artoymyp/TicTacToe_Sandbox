@@ -1,7 +1,7 @@
 import unittest
-from TicTacToe import TicTacToe
+from tic_tac_toe import TicTacToe
 
-class Test_TicTacToeTests(unittest.TestCase):
+class TestTicTacToe(unittest.TestCase):
     def test_game_winner(self):
         # arrange
         game_descriptions = [
@@ -12,7 +12,7 @@ class Test_TicTacToeTests(unittest.TestCase):
             ([(0, 0), (1, 1), (0, 1), (1, 2), (0, 2)], 'A win in the 1st row.'),
             ([(1, 0), (0, 0), (1, 1), (0, 1), (1, 2)], 'A win in the 2nd row.'),
             ([(2, 0), (0, 1), (2, 1), (1, 1), (2, 2)], 'A win in the 3st row.'),
-            
+
             ([(0, 0), (1, 0), (1, 1), (0, 1), (2, 2)], 'A win in the main diagonal.'),
             ([(0, 2), (1, 0), (1, 1), (0, 1), (2, 0)], 'A win in the minor diagonal.'),
             ]
@@ -24,15 +24,15 @@ class Test_TicTacToeTests(unittest.TestCase):
             # assert
             for turn_index, turn in enumerate(turn_sequence):
                 self.assertEqual(
-                    '', 
-                    game.winner, 
+                    '',
+                    game.winner,
                     f'Winner before the turn #{turn_index} of the game "{win_description}"')
 
                 game.mark_cell(*turn)
 
             self.assertEqual(
-                expected_winner, 
-                game.winner, 
+                expected_winner,
+                game.winner,
                 'Winner after the last turn of the game "{win_description}"')
 
     def test_game_with_no_winner(self):
