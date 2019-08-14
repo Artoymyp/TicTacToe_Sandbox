@@ -1,17 +1,21 @@
+"""Tic-Tac-Toe game mechanics.
+
+This module contains classes, that define the Tic-Tac-Toe game logic.
+
+Classes:
+    TicTacToe - class that defines the Tic-Tac-Toe game logic.
+"""
+
+
 class TicTacToe():
-    """TicTacToe game mechanics"""
+    """Tic-Tac-Toe game mechanics."""
     def __init__(self):
         self.table = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
         self.next_mark = 'O'
         self.winner = ''
 
-    def draw(self):
-        print('+-+-+-+')
-        for row in self.table:
-            print('|{0}|{1}|{2}|'.format(*row))
-        print('+-+-+-+')
-
-    def has_ended(self):
+    def has_ended(self) -> bool:
+        """Tell whether the game has ended or not."""
         return self.winner
 
     def _is_winner(self, mark):
@@ -33,12 +37,12 @@ class TicTacToe():
         return False
 
     def mark_cell(self, horizontal_index, vertical_index):
-        """Put the mark in the grid
+        """Put the mark in the grid.
 
         Put the self.NextMark in the (horizontal_index, y) grid cell.
         Arguments:
-        horizontal_index -- zero-based column index
-        vertical_index -- zero-based row index
+        horizontal_index -- zero-based column index.
+        vertical_index -- zero-based row index.
         """
         self.table[horizontal_index][vertical_index] = self.next_mark
         if self._is_winner(self.next_mark):

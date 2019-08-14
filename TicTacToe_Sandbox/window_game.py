@@ -1,6 +1,11 @@
+"""A Script that runs the Tic-Tac-Toe game in a window app."""
+
 import tkinter as tk
 
+
 class Application(tk.Frame):
+    """Main tkinter application class."""
+
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -21,6 +26,7 @@ class Application(tk.Frame):
     @staticmethod
     def _say_hi():
         print("hi there, everyone!")
+
 
 def main():
     """The entry point."""

@@ -1,8 +1,15 @@
+"""Module defines automated tests for the Tic-Tac-Toe game."""
+
 import unittest
+
 from tic_tac_toe import TicTacToe
 
+
 class TestTicTacToe(unittest.TestCase):
+    """Class defines automated tests for the Tic-Tac-Toe game."""
+
     def test_game_winner(self):
+        """Test all winning configurations."""
         # arrange
         game_descriptions = [
             ([(0, 0), (0, 1), (1, 0), (1, 1), (2, 0)], 'A win in the 1st column.'),
@@ -36,6 +43,7 @@ class TestTicTacToe(unittest.TestCase):
                 'Winner after the last turn of the game "{win_description}"')
 
     def test_game_with_no_winner(self):
+        """Test the draw game ending."""
         # arrange
         game = TicTacToe()
 
