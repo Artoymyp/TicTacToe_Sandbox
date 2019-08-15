@@ -2,6 +2,7 @@
 
 import os
 
+from tic_tac_toe import Player
 from tic_tac_toe import TicTacToe
 
 
@@ -9,7 +10,7 @@ def draw(game: TicTacToe):
     """Draw the game interface in console."""
     print('+-+-+-+')
     for row in game.table:
-        print('|{0}|{1}|{2}|'.format(*row))
+        print('|{0}|{1}|{2}|'.format(*[mark.display_value for mark in row]))
     print('+-+-+-+')
 
 
@@ -27,7 +28,10 @@ def main():
     os.system('cls||clear')
 
     draw(game)
-    print('winner is ' + game.winner)
+    if game.winner == Player.EMPTY:
+        print("The game is draw.")
+    else:
+        print('winner is ' + game.winner.display_value)
 
 
 if __name__ == '__main__':
