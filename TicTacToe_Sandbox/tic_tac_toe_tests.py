@@ -87,7 +87,17 @@ class TestTicTacToe(unittest.TestCase):
 
         self.assertTrue(game.has_ended(), "Game has ended")
 
+    def test_setting_mark_in_an_out_of_range_cell(self):
+        """Test game's reaction to setting mark into a non-existing cell"""
+        #arrange
+        game = TicTacToe()
 
+        #act
+        try:
+            game.mark_cell(game.grid_size + 1, game.grid_size + 1)
+        #assert
+        except:
+            self.fail("Exception raised unexpectedly.")
 
 
 if __name__ == '__main__':

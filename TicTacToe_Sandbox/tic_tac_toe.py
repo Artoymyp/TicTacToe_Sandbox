@@ -26,11 +26,13 @@ class PlayerMark(Enum):
 class TicTacToe():
     """Tic-Tac-Toe game mechanics."""
 
+    grid_size = 3
+
     def __init__(self):
         self.table = [
-            [PlayerMark.EMPTY, PlayerMark.EMPTY, PlayerMark.EMPTY],
-            [PlayerMark.EMPTY, PlayerMark.EMPTY, PlayerMark.EMPTY],
-            [PlayerMark.EMPTY, PlayerMark.EMPTY, PlayerMark.EMPTY]
+            [PlayerMark.EMPTY
+             for x in range(TicTacToe.grid_size)]
+            for y in range(TicTacToe.grid_size)
             ]
         self.next_mark = PlayerMark.NOUGHT
         self.winner = PlayerMark.EMPTY
@@ -78,11 +80,15 @@ class TicTacToe():
     def mark_cell(self, horizontal_index, vertical_index):
         """Put the mark in the grid.
 
-        Put the self.NextMark in the (horizontal_index, y) grid cell.
+        Put the self.NextMark in the (horizontal_index, vertical_index) grid cell.
         Arguments:
-        horizontal_index -- zero-based column index.
-        vertical_index -- zero-based row index.
+        horizontal_index -- zero-based column index.  Should be in [0, grid_size).
+        vertical_index -- zero-based row index.  Should be in [0, grid_size).
         """
+
+        if horizontal_index >= self.grid_size or vertical_index >= self.grid_size:
+            return
+
         self.table[horizontal_index][vertical_index] = self.next_mark
         if self._evaluate_that_winner_is_determined():
             self.winner = self.next_mark
