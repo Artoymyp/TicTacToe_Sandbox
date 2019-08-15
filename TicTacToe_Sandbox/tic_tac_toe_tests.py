@@ -96,8 +96,8 @@ class TestTicTacToe(unittest.TestCase):
         try:
             game.mark_cell(game.grid_size + 1, game.grid_size + 1)
         #assert
-        except:
-            self.fail("Exception raised unexpectedly.")
+        except IndexError as error:
+            self.fail(f"Exception raised unexpectedly: {error}.")
 
 
 if __name__ == '__main__':
