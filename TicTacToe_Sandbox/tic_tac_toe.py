@@ -29,7 +29,7 @@ class TicTacToe():
     grid_size = 3
 
     def __init__(self):
-        self.table = [
+        self._table = [
             [PlayerMark.EMPTY
              for x in range(TicTacToe.grid_size)]
             for y in range(TicTacToe.grid_size)
@@ -59,15 +59,15 @@ class TicTacToe():
     def _enumerate_possible_win_cell_groups(self) -> list:
         """Return the list of all cell lists, which can cause win"""
         cell_groups = []
-        for row in self.table:
+        for row in self._table:
             cell_groups.append(row)
 
-        transposed_table = [list(i) for i in zip(*self.table)]
+        transposed_table = [list(i) for i in zip(*self._table)]
         for row in transposed_table:
             cell_groups.append(row)
 
-        cell_groups.append([self.table[0][0], self.table[1][1], self.table[2][2]])
-        cell_groups.append([self.table[0][2], self.table[1][1], self.table[2][0]])
+        cell_groups.append([self._table[0][0], self._table[1][1], self._table[2][2]])
+        cell_groups.append([self._table[0][2], self._table[1][1], self._table[2][0]])
 
         return cell_groups
 
@@ -85,13 +85,32 @@ class TicTacToe():
         Arguments:
         horizontal_index -- zero-based column index.  Should be in [0, grid_size).
         vertical_index -- zero-based row index.  Should be in [0, grid_size).
+
+        If the cell (horizontal_index, vertical_index) is already marked, then
+        game state will not change.
         """
 
         if horizontal_index >= self.grid_size or vertical_index >= self.grid_size:
             return
 
-        self.table[horizontal_index][vertical_index] = self.next_mark
+        if PlayerMark.EMPTY != self.get_cell_mark(horizontal_index, vertical_index):
+            return
+
+        self._table[horizontal_index][vertical_index] = self.next_mark
         if self._evaluate_that_winner_is_determined():
             self.winner = self.next_mark
 
         self.next_mark, self._previous_mark = self._previous_mark, self.next_mark
+
+    def get_cell_mark(self, horizontal_index, vertical_index) -> PlayerMark:
+        """Return the mark from the grid cell.
+
+        Returns the mark placed inside the (horizontal_index, vertical_index) grid cell.
+        Arguments:
+        horizontal_index -- zero-based column index.
+        vertical_index -- zero-based row index.
+
+        Exceptions:
+        Throws IndexError if horizontal_index or vertical_index are not in the [0, grid_size).
+        """
+        return self._table[horizontal_index][vertical_index]

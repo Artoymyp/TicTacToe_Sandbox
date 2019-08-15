@@ -88,7 +88,7 @@ class TestTicTacToe(unittest.TestCase):
         self.assertTrue(game.has_ended(), "Game has ended")
 
     def test_setting_mark_in_an_out_of_range_cell(self):
-        """Test game's reaction to setting mark into a non-existing cell"""
+        """Test game's reaction to setting mark into a non-existing cell."""
         #arrange
         game = TicTacToe()
 
@@ -99,6 +99,42 @@ class TestTicTacToe(unittest.TestCase):
         except IndexError as error:
             self.fail(f"Exception raised unexpectedly: {error}.")
 
+    def test_getting_mark_from_a_cell(self):
+        """Test requesting a mark from a game cell."""
+        #arrange
+        game = TicTacToe()
+        expected_mark = game.next_mark
+        tested_cell = (0, 0)
+        game.mark_cell(*tested_cell)
+
+        #assert
+        self.assertEqual(
+            expected_mark,
+            game.get_cell_mark(*tested_cell),
+            "Cell's mark")
+
+    def test_setting_mark_into_already_used_cell_is_ignored(self):
+        """Test game's reaction to setting mark into already occupied cell."""
+        #arrange
+        game = TicTacToe()
+        tested_cell = (0, 0)
+        game.mark_cell(*tested_cell)
+        expected_mark = game.get_cell_mark(*tested_cell)
+        expected_next_mark = game.next_mark
+
+        #act
+        game.mark_cell(*tested_cell)
+
+        #assert
+        self.assertEqual(
+            expected_mark,
+            game.get_cell_mark(*tested_cell),
+            'Already marked cell should not be changed.')
+
+        self.assertEqual(
+            expected_next_mark,
+            game.next_mark,
+            'Next mark should not be changed.')
 
 if __name__ == '__main__':
     unittest.main()
