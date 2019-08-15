@@ -35,6 +35,7 @@ class TicTacToe():
             for y in range(TicTacToe.grid_size)
             ]
         self.next_mark = PlayerMark.NOUGHT
+        self._previous_mark = PlayerMark.CROSS
         self.winner = PlayerMark.EMPTY
 
     @staticmethod
@@ -92,4 +93,5 @@ class TicTacToe():
         self.table[horizontal_index][vertical_index] = self.next_mark
         if self._evaluate_that_winner_is_determined():
             self.winner = self.next_mark
-        self.next_mark = PlayerMark.CROSS if self.next_mark == PlayerMark.NOUGHT else PlayerMark.NOUGHT
+
+        self.next_mark, self._previous_mark = self._previous_mark, self.next_mark
