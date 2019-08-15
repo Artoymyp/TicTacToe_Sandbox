@@ -9,7 +9,7 @@ from tic_tac_toe import TicTacToe
 def draw(game: TicTacToe):
     """Draw the game interface in console."""
     print('+-+-+-+')
-    for row in game.table:
+    for row in reversed(game.table):
         print('|{0}|{1}|{2}|'.format(*[mark.display_value for mark in row]))
     print('+-+-+-+')
 
