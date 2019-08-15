@@ -2,7 +2,7 @@
 
 import unittest
 
-from tic_tac_toe import Player
+from tic_tac_toe import PlayerMark
 from tic_tac_toe import TicTacToe
 
 
@@ -32,7 +32,7 @@ class TestTicTacToe(unittest.TestCase):
             # assert
             for turn_index, turn in enumerate(turn_sequence):
                 self.assertEqual(
-                    Player.EMPTY,
+                    PlayerMark.EMPTY,
                     game.winner,
                     f'Winner before the turn #{turn_index} of the game "{win_description}"')
 
@@ -56,10 +56,10 @@ class TestTicTacToe(unittest.TestCase):
 
         # assert
         for turn_index, turn in enumerate(draw_complete_turn_sequence):
-            self.assertEqual(Player.EMPTY, game.winner, f'Winner before the turn #{turn_index}')
+            self.assertEqual(PlayerMark.EMPTY, game.winner, f'Winner before the turn #{turn_index}')
             game.mark_cell(*turn)
 
-        self.assertEqual(Player.EMPTY, game.winner, 'Winner after the last turn')
+        self.assertEqual(PlayerMark.EMPTY, game.winner, 'Winner after the last turn')
 
         self.assertTrue(game.has_ended(), "Game has ended")
 
@@ -76,14 +76,14 @@ class TestTicTacToe(unittest.TestCase):
 
         #assert
         for turn_index, turn in enumerate(draw_incomplete_turn_sequence):
-            self.assertEqual(Player.EMPTY, game.winner, f'Winner before the turn #{turn_index}')
+            self.assertEqual(PlayerMark.EMPTY, game.winner, f'Winner before the turn #{turn_index}')
             self.assertFalse(
                 game.has_ended(),
                 f"Game has ended prematurely before the turn #{turn_index}")
 
             game.mark_cell(*turn)
 
-        self.assertEqual(Player.EMPTY, game.winner, 'Winner after the last turn')
+        self.assertEqual(PlayerMark.EMPTY, game.winner, 'Winner after the last turn')
 
         self.assertTrue(game.has_ended(), "Game has ended")
 

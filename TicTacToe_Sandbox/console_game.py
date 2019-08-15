@@ -2,7 +2,7 @@
 
 import os
 
-from tic_tac_toe import Player
+from tic_tac_toe import PlayerMark
 from tic_tac_toe import TicTacToe
 
 
@@ -28,7 +28,7 @@ def main():
     os.system('cls||clear')
 
     draw(game)
-    if game.winner == Player.EMPTY:
+    if game.winner == PlayerMark.EMPTY:
         print("The game is draw.")
     else:
         print('winner is ' + game.winner.display_value)

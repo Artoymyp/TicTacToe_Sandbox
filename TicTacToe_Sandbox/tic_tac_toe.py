@@ -4,13 +4,14 @@ This module contains classes, that define the Tic-Tac-Toe game logic.
 
 Classes:
     TicTacToe - class that defines the Tic-Tac-Toe game logic.
+    PlayerMark - enum for valid states of a cell in the game's grid.
 
 """
 
 from enum import Enum
 
 
-class Player(Enum):
+class PlayerMark(Enum):
     """Enum of possible marks in a Tic-Tac-Toe cell."""
 
     def __init__(self, value, display_value):
@@ -27,23 +28,23 @@ class TicTacToe():
 
     def __init__(self):
         self.table = [
-            [Player.EMPTY, Player.EMPTY, Player.EMPTY],
-            [Player.EMPTY, Player.EMPTY, Player.EMPTY],
-            [Player.EMPTY, Player.EMPTY, Player.EMPTY]
+            [PlayerMark.EMPTY, PlayerMark.EMPTY, PlayerMark.EMPTY],
+            [PlayerMark.EMPTY, PlayerMark.EMPTY, PlayerMark.EMPTY],
+            [PlayerMark.EMPTY, PlayerMark.EMPTY, PlayerMark.EMPTY]
             ]
-        self.next_mark = Player.NOUGHT
-        self.winner = Player.EMPTY
+        self.next_mark = PlayerMark.NOUGHT
+        self.winner = PlayerMark.EMPTY
 
     @staticmethod
-    def _has_winning_potential(mark1: Player, mark2: Player, mark3: Player) -> bool:
+    def _has_winning_potential(mark1: PlayerMark, mark2: PlayerMark, mark3: PlayerMark) -> bool:
         marks_list = [mark1, mark2, mark3]
-        marks_count = sum([x != Player.EMPTY for x in marks_list])
+        marks_count = sum([x != PlayerMark.EMPTY for x in marks_list])
         marks_sum = sum([x.value for x in marks_list])
         return marks_sum in (marks_count, -marks_count)
 
     def has_ended(self) -> bool:
         """Tell whether the game has ended or not."""
-        if self.winner != Player.EMPTY:
+        if self.winner != PlayerMark.EMPTY:
             return True
 
         for cell_group in self._enumerate_possible_win_cell_groups():
@@ -85,4 +86,4 @@ class TicTacToe():
         self.table[horizontal_index][vertical_index] = self.next_mark
         if self._evaluate_that_winner_is_determined():
             self.winner = self.next_mark
-        self.next_mark = Player.CROSS if self.next_mark == Player.NOUGHT else Player.NOUGHT
+        self.next_mark = PlayerMark.CROSS if self.next_mark == PlayerMark.NOUGHT else PlayerMark.NOUGHT
