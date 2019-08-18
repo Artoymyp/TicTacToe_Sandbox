@@ -14,7 +14,7 @@ class ConsoleGamePlayer(GamePlayerBase):
         """Request a grid cell from a console user."""
         cell_number = int(input('Please use a numpad 1-9 Keys to make the next move:'))
         cell_number -= 1
-        return (cell_number // 3, cell_number % 3)
+        return (cell_number % 3, cell_number // 3)
 
 
 class ConsoleGamePresenter(GamePresenterBase):
