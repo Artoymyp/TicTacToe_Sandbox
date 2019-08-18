@@ -10,16 +10,9 @@ class TestGameRunner(unittest.TestCase):
 
     _game_turn_sequence = []
 
-    def _game_turn_sequence_provider(self, game):
-        return self._game_turn_sequence.pop(0)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    def test_simple_game_call_sequence(self):
-        """Test a simple game run."""
-
-        # arrange
-        self._game_turn_sequence = [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0)]
-
-        mock_sequence_manager = Mock()
         game_presenter = Mock(create_autospec=GamePresenterBase)
         player1 = Mock(create_autospec=GamePlayerBase)
         player1.provide_turn.side_effect = self._game_turn_sequence_provider
@@ -27,13 +20,22 @@ class TestGameRunner(unittest.TestCase):
         player2 = Mock(create_autospec=GamePlayerBase)
         player2.provide_turn.side_effect = self._game_turn_sequence_provider
 
-        mock_sequence_manager.attach_mock(game_presenter.show, 'show_game')
-        mock_sequence_manager.attach_mock(game_presenter.show_winner, 'show_winner')
-        mock_sequence_manager.attach_mock(player1.provide_turn, 'provide_turn1')
-        mock_sequence_manager.attach_mock(player2.provide_turn, 'provide_turn2')
+        self._runner = GameRunner(game_presenter, player1, player2)
 
-        runner = GameRunner(game_presenter, player1, player2)
-        game = runner.game
+        self._mock_sequence_manager = Mock()
+        self._mock_sequence_manager.attach_mock(game_presenter.show, 'show_game')
+        self._mock_sequence_manager.attach_mock(game_presenter.show_winner, 'show_winner')
+        self._mock_sequence_manager.attach_mock(player1.provide_turn, 'provide_turn1')
+        self._mock_sequence_manager.attach_mock(player2.provide_turn, 'provide_turn2')
+
+    def _game_turn_sequence_provider(self, game):
+        return self._game_turn_sequence.pop(0)
+
+    def test_simple_game_call_sequence(self):
+        """Test a simple game run."""
+        # arrange
+        self._game_turn_sequence = [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0)]
+        game = self._runner.game
 
         expected_call_sequence = [
             call.show_game(game),
@@ -50,14 +52,13 @@ class TestGameRunner(unittest.TestCase):
             ]
 
         # act
-        runner.start_game()
+        self._runner.start_game()
 
         # assert
-        mock_sequence_manager.assert_has_calls(expected_call_sequence)
+        self._mock_sequence_manager.assert_has_calls(expected_call_sequence)
 
     def test_game_with_wrong_moves_call_sequence(self):
         """Test that providing wrong cell numbers will not affect the flow of a game."""
-
         # arrange
         self._game_turn_sequence = [
             (0, 0),
@@ -69,21 +70,7 @@ class TestGameRunner(unittest.TestCase):
             (2, 0)
             ]
 
-        mock_sequence_manager = Mock()
-        game_presenter = Mock(create_autospec=GamePresenterBase)
-        player1 = Mock(create_autospec=GamePlayerBase)
-        player1.provide_turn.side_effect = self._game_turn_sequence_provider
-
-        player2 = Mock(create_autospec=GamePlayerBase)
-        player2.provide_turn.side_effect = self._game_turn_sequence_provider
-
-        mock_sequence_manager.attach_mock(game_presenter.show, 'show_game')
-        mock_sequence_manager.attach_mock(game_presenter.show_winner, 'show_winner')
-        mock_sequence_manager.attach_mock(player1.provide_turn, 'provide_turn1')
-        mock_sequence_manager.attach_mock(player2.provide_turn, 'provide_turn2')
-
-        runner = GameRunner(game_presenter, player1, player2)
-        game = runner.game
+        game = self._runner.game
 
         expected_call_sequence = [
             call.show_game(game),
@@ -104,10 +91,10 @@ class TestGameRunner(unittest.TestCase):
             ]
 
         # act
-        runner.start_game()
+        self._runner.start_game()
 
         # assert
-        mock_sequence_manager.assert_has_calls(expected_call_sequence)
+        self._mock_sequence_manager.assert_has_calls(expected_call_sequence)
 
 
 if __name__ == '__main__':
