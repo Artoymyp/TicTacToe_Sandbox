@@ -78,7 +78,7 @@ class TicTacToe():
 
         return False
 
-    def mark_cell(self, horizontal_index, vertical_index):
+    def mark_cell(self, horizontal_index, vertical_index) -> bool:
         """Put the mark in the grid.
 
         Put the self.NextMark in the (horizontal_index, vertical_index) grid cell.
@@ -88,19 +88,24 @@ class TicTacToe():
 
         If the cell (horizontal_index, vertical_index) is already marked, then
         game state will not change.
+
+        Return:
+        Bool value indicating whether a cell was successfully marked.
         """
 
         if horizontal_index >= self.grid_size or vertical_index >= self.grid_size:
-            return
+            return False
 
         if PlayerMark.EMPTY != self.get_cell_mark(horizontal_index, vertical_index):
-            return
+            return False
 
         self._table[horizontal_index][vertical_index] = self.next_mark
         if self._evaluate_that_winner_is_determined():
             self.winner = self.next_mark
 
         self.next_mark, self._previous_mark = self._previous_mark, self.next_mark
+
+        return True
 
     def get_cell_mark(self, horizontal_index, vertical_index) -> PlayerMark:
         """Return the mark from the grid cell.
