@@ -26,14 +26,14 @@
     <Compile Include="game_runner.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="game_runner_tests.py">
+    <Compile Include="Tests\game_runner_tests.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="window_game.py" />
     <Compile Include="tic_tac_toe.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tic_tac_toe_tests.py">
+    <Compile Include="Tests\tic_tac_toe_tests.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="console_game.py">
@@ -66,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".pylintrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tests\" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <!-- ExecuteIn="none" value prevents an appearance of the Console window. -->
