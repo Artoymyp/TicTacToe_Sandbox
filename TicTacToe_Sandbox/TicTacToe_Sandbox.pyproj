@@ -5,7 +5,7 @@
     <ProjectGuid>436701eb-54a0-4a82-9133-13278e661414</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>console_game.py</StartupFile>
+    <StartupFile>ai_player.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,7 +23,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ai_player.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="game_runner.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="random_player.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tests\game_runner_tests.py">

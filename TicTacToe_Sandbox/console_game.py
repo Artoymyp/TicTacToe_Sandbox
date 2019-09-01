@@ -10,9 +10,15 @@ from game_runner import GameRunner, GamePresenterBase, GamePlayerBase
 class ConsoleGamePlayer(GamePlayerBase):
     """Source of turns for the game that is a console user."""
 
-    def provide_turn(self, game: TicTacToe) -> (int, int):
+    def provide_turn(self, game: TicTacToe, is_first_request: bool) -> (int, int):
         """Request a grid cell from a console user."""
-        cell_number = int(input('Please use a numpad 1-9 Keys to make the next move:'))
+        success = False
+        while not success:
+            try:
+                cell_number = int(input('Please use a numpad 1-9 Keys to make the next move:'))
+                success = True
+            except ValueError:
+                success = False
         cell_number -= 1
         return (cell_number % 3, cell_number // 3)
 

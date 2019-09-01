@@ -28,7 +28,7 @@ class TestGameRunner(unittest.TestCase):
         self._mock_sequence_manager.attach_mock(player1.provide_turn, 'provide_turn1')
         self._mock_sequence_manager.attach_mock(player2.provide_turn, 'provide_turn2')
 
-    def _game_turn_sequence_provider(self, game):
+    def _game_turn_sequence_provider(self, game, is_first_request):
         return self._game_turn_sequence.pop(0)
 
     def test_simple_game_call_sequence(self):
@@ -39,15 +39,15 @@ class TestGameRunner(unittest.TestCase):
 
         expected_call_sequence = [
             call.show_game(game),
-            call.provide_turn1(game),
+            call.provide_turn1(game, True),
             call.show_game(game),
-            call.provide_turn2(game),
+            call.provide_turn2(game, True),
             call.show_game(game),
-            call.provide_turn1(game),
+            call.provide_turn1(game, True),
             call.show_game(game),
-            call.provide_turn2(game),
+            call.provide_turn2(game, True),
             call.show_game(game),
-            call.provide_turn1(game),
+            call.provide_turn1(game, True),
             call.show_winner(game)
             ]
 
@@ -74,19 +74,19 @@ class TestGameRunner(unittest.TestCase):
 
         expected_call_sequence = [
             call.show_game(game),
-            call.provide_turn1(game),
+            call.provide_turn1(game, True),
             call.show_game(game),
-            call.provide_turn2(game),
+            call.provide_turn2(game, True),
             call.show_game(game),
-            call.provide_turn2(game),
+            call.provide_turn2(game, False),
             call.show_game(game),
-            call.provide_turn2(game),
+            call.provide_turn2(game, False),
             call.show_game(game),
-            call.provide_turn1(game),
+            call.provide_turn1(game, True),
             call.show_game(game),
-            call.provide_turn2(game),
+            call.provide_turn2(game, True),
             call.show_game(game),
-            call.provide_turn1(game),
+            call.provide_turn1(game, True),
             call.show_winner(game)
             ]
 
